@@ -11,7 +11,7 @@
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/io.hpp>
 
-using namespace std;
+//using namespace std;
 
 int main() {
 /*	ofstream myfile;
@@ -74,22 +74,31 @@ int main() {
 	}
 	else cout << "Nie uda³o siê otworzyc pliku\n";*/
 
+
+	std::cout << "Metoda Wegierska\n\n";
+	std::cout << "Menu:\n";
+	std::cout << "c - Wczytaj macierz z konsoli\n";
+	std::cout << "p - Wczytaj macierz z pliku\n";
+	std::cout << "l - Wygeneruj macierz losowo\n";
+
+
+
 	boost::numeric::ublas::matrix<double> M;
-	ifstream plik("dane.txt", ios::in);
+	std::ifstream plik("dane.txt", std::ios::in);
 
 	if(plik.is_open()) {
 		if(plik >> M) {
-			cout << "Wypisuje macierz: ";
-			cout << M;
+			std::cout << "Wypisuje macierz: ";
+			std::cout << M;
 		}
 		else {
-			cout << "Nie udal sie zapis do macierzy\n";
+			std::cout << "Nie udal sie zapis do macierzy\n";
 			return 1;
 		}
 
 	}
 	else {
-		cout << "Nie udalo sie otworzyc pliku\n";
+		std::cout << "Nie udalo sie otworzyc pliku\n";
 		return 1;
 	}
 
