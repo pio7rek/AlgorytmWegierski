@@ -81,6 +81,31 @@ int main() {
 	std::cout << "p - Wczytaj macierz z pliku\n";
 	std::cout << "l - Wygeneruj macierz losowo\n";
 
+	boost::numeric::ublas::matrix<double> macierz;
+
+	char c;
+	std::cin.get(c);
+	switch (c) {
+		case 'c':
+			std::cout << ">> z konsoli\n";
+			std::cout << "Podaja macierz jak w przykladowym formacie:\n";
+			std::cout << "[3,3]((1,2,3),(4,5,6),(7,8,9))\n";
+
+			std::cin >> macierz;
+			break;
+
+		case 'p':
+			std::cout << ">> z pliku\n";
+			std::cout << "Przykotuj plik o nazwie dane.txt\n";
+			std::cout << "z danymi w postaci: [3,3]((1,2,3),(4,5,6),(7,8,9))";
+			break;
+		case 'l':
+			std::cout << ">> losowo\n";
+			break;
+		default:
+			std::cout << "wybierz c, p lub l\n";
+			break;
+	}
 
 
 	boost::numeric::ublas::matrix<double> M;
