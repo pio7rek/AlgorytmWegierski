@@ -8,6 +8,8 @@
 //basic file operations
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
+#include <time.h>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/io.hpp>
 
@@ -101,7 +103,6 @@ int main() {
 		//macierz z pliku
 		case 'p':
 			std::cout << ">> z pliku dame.txt\n";
-			std::cout << "z danymi w postaci: [3,3]((1,2,3),(4,5,6),(7,8,9))\n";
 
 			if(plik.is_open()) {
 				if(plik >> M) {
@@ -120,20 +121,27 @@ int main() {
 
 			break;
 		//macierz w sposob losowy
-		case 'l':
+		case 'l':{
 			std::cout << ">> losowo\n";
+			srand(time(NULL));
+			//int k = rand() % 5 + 5;
+			boost::numeric::ublas::matrix<double> m2;
+			for (unsigned i = 0; i < m2.size1 (); ++ i)
+				for (unsigned j = 0; j < m2.size2 (); ++ j)
+					M(i, j) = rand() % 30 + 1;
+			std::cout << m2 << std::endl;
+		}
 			break;
 		default:
 			std::cout << "wybierz c, p, l lub k\n";
 			break;
 	}
 
+//	matrix_row<MAT> vr(m, index);
+//	matrix_column<MAT> vc(m, index);
+
 
 //	boost::numeric::ublas::matrix<double> M;
-
-
-
-
 
 	return 0;
 }
