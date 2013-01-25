@@ -78,54 +78,62 @@ int main() {
 	std::cout << "Metoda Wegierska\n\n";
 	std::cout << "Menu:\n";
 	std::cout << "c - Wczytaj macierz z konsoli\n";
-	std::cout << "p - Wczytaj macierz z pliku\n";
+	std::cout << "p - Wczytaj macierz z pliku dane.txt\n";
 	std::cout << "l - Wygeneruj macierz losowo\n";
-
-	boost::numeric::ublas::matrix<double> macierz;
-
-	char c;
-	std::cin.get(c);
-	switch (c) {
-		case 'c':
-			std::cout << ">> z konsoli\n";
-			std::cout << "Podaja macierz jak w przykladowym formacie:\n";
-			std::cout << "[3,3]((1,2,3),(4,5,6),(7,8,9))\n";
-
-			std::cin >> macierz;
-			break;
-
-		case 'p':
-			std::cout << ">> z pliku\n";
-			std::cout << "Przykotuj plik o nazwie dane.txt\n";
-			std::cout << "z danymi w postaci: [3,3]((1,2,3),(4,5,6),(7,8,9))";
-			break;
-		case 'l':
-			std::cout << ">> losowo\n";
-			break;
-		default:
-			std::cout << "wybierz c, p lub l\n";
-			break;
-	}
-
+	std::cout << "k - koniec\n";
+	std::cout << "\nMacierz podawaj jak w przykladowym formacie:\n";
+	std::cout << "[3,3]((1,2,3),(4,5,6),(7,8,9))" << std::endl;
 
 	boost::numeric::ublas::matrix<double> M;
 	std::ifstream plik("dane.txt", std::ios::in);
 
-	if(plik.is_open()) {
-		if(plik >> M) {
+	char c;
+	std::cin.get(c);
+	switch (c) {
+		//macierz z konsoli
+		case 'c':
+			std::cout << ">> z konsoli\n";
+			std::cin >> M;
+
 			std::cout << "Wypisuje macierz: ";
 			std::cout << M;
-		}
-		else {
-			std::cout << "Nie udal sie zapis do macierzy\n";
-			return 1;
-		}
+			break;
+		//macierz z pliku
+		case 'p':
+			std::cout << ">> z pliku dame.txt\n";
+			std::cout << "z danymi w postaci: [3,3]((1,2,3),(4,5,6),(7,8,9))\n";
 
+			if(plik.is_open()) {
+				if(plik >> M) {
+					std::cout << "Wypisuje macierz: ";
+					std::cout << M;
+				}
+				else {
+					std::cout << "Nie udal sie zapis do macierzy\n";
+					return 1;
+				}
+			}
+			else {
+					std::cout << "Nie udalo sie otworzyc pliku\n";
+					return 1;
+			}
+
+			break;
+		//macierz w sposob losowy
+		case 'l':
+			std::cout << ">> losowo\n";
+			break;
+		default:
+			std::cout << "wybierz c, p, l lub k\n";
+			break;
 	}
-	else {
-		std::cout << "Nie udalo sie otworzyc pliku\n";
-		return 1;
-	}
+
+
+//	boost::numeric::ublas::matrix<double> M;
+
+
+
+
 
 	return 0;
 }
