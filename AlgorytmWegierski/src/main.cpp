@@ -13,7 +13,10 @@
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/io.hpp>
 
-//using namespace std;
+using namespace boost::numeric::ublas;
+
+template <typename T> void wypisz(boost::numeric::ublas::matrix<T>);
+template <typename T> void min_wiersz(boost::numeric::ublas::matrix<T> &m, int wiersz);
 
 int main() {
 /*	ofstream myfile;
@@ -123,13 +126,55 @@ int main() {
 		//macierz w sposob losowy
 		case 'l':{
 			std::cout << ">> losowo\n";
-			srand(time(NULL));
-			//int k = rand() % 5 + 5;
-			boost::numeric::ublas::matrix<double> m2;
-			for (unsigned i = 0; i < m2.size1 (); ++ i)
-				for (unsigned j = 0; j < m2.size2 (); ++ j)
-					M(i, j) = rand() % 30 + 1;
-			std::cout << m2 << std::endl;
+			std::cout << "ile losowych macierzy chcesz utworzyc ?\n";
+			int ile;
+			std::cin >> ile;
+
+			srand((unsigned int) time(NULL));
+			//glowna macierz
+			boost::numeric::ublas::matrix<double> m2(5,5);
+			//maciesz pomocnicza - zakreskowania
+			boost::numeric::ublas::matrix<int> tmp(5,5);
+			const int NORMALNE = 0;
+			const int RAZKRESKA = 1;
+			const int DWAKRESKA = 2;
+
+			while(ile-- > 0) {
+				//losowanie elementow macierzy
+				for (unsigned wiersz = 0; wiersz < m2.size1 (); ++wiersz)
+					for (unsigned kolumna = 0; kolumna < m2.size2 (); ++kolumna)
+						m2(wiersz, kolumna) = (double)(rand() % 30 + 1);
+				std::cout << m2 << std::endl;
+
+				wypisz(m2);
+				std::cout <<"---- odejmuje minimum w wierszach\n";
+				//odjecie minimalnegoe elementu w wierszach
+				for(unsigned int wiersz=0; wiersz<m2.size1(); ++wiersz) {
+					int min = m2(wiersz,0);
+						for(unsigned int i=0; i<m2.size1(); ++i)
+							if(m2(wiersz, i) < min)
+								min = m2(wiersz,i);
+						for(unsigned int i=0; i<m2.size1(); ++i)
+							m2(wiersz,i)-=min;
+				}
+
+				wypisz(m2);
+				std::cout <<"---- odejmuje minimum w kolumnach\n";
+
+				//odjecie minimalnego elementu w kolumnie
+				for(unsigned int kolumna=0; kolumna<m2.size1(); ++kolumna) {
+					int min = m2(0,kolumna);
+					for(unsigned int i=0; i<m2.size1(); ++i)
+						if(m2(i, kolumna) < min)
+							min = m2(i, kolumna);
+					for(unsigned int i=0; i<m2.size1(); ++i)
+						m2(i,kolumna)-=min;
+				}
+
+				wypisz(m2);
+
+				//minimalne kreskowanie
+			}
 		}
 			break;
 		default:
@@ -143,8 +188,27 @@ int main() {
 
 //	boost::numeric::ublas::matrix<double> M;
 
+
+
+
 	return 0;
 }
 
+template <typename T> void wypisz(boost::numeric::ublas::matrix<T> m) {
+	for(unsigned int wiersz=0; wiersz<m.size1(); ++wiersz) {
+		for(unsigned int kolumna=0; kolumna<m.size2(); ++kolumna) {
+			std::cout.width(2);
+			std::cout << m(wiersz,kolumna) << ",";
+		}
+		std::cout << std::endl;
+	}
+}
 
-
+template <typename T> void min_wiersz(boost::numeric::ublas::matrix<T> &m, int wiersz) {
+	int min = m(wiersz,0);
+	for(unsigned int i=0; i<m.size1(); ++i)
+		if(m(wiersz,i)<min)
+			min = m(wiersz,i);
+	for(unsigned int i=0; i<m.size1(); ++i)
+		m(wiersz,i)-=min;
+}
